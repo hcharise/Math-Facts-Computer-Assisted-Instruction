@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		BBF1CDC82B801B750062C8F6 /* Computer-Assisted Instruction */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Computer-Assisted Instruction"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF1CDCB2B801B750062C8F6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		BBF1CDD22B801DEF0062C8F6 /* Question Description.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Question Description.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				BBF1CDCB2B801B750062C8F6 /* main.cpp */,
+				BBF1CDD22B801DEF0062C8F6 /* Question Description.md */,
 			);
 			path = "Computer-Assisted Instruction";
 			sourceTree = "<group>";

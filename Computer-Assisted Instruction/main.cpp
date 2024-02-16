@@ -1,14 +1,21 @@
-//
-//  main.cpp
-//  Computer-Assisted Instruction
-//
-//  Created by Hannah Ashton on 2/16/24.
-//
+/*
+Hannah Ashton
 
-#include <iostream>
+Professor Jonathan S. Weissman
+CIS 554-M401 Object Oriented Programming in C++
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
-}
+Syracuse University
+HW #4 - Exercises 6.57 - 6.61 pg 281-282
+2/20/2024
+ 
+DESCRIPTION
+
+Main.CPP
+
+*/
+
+int main() {
+    
+    
+    
+} // end main
