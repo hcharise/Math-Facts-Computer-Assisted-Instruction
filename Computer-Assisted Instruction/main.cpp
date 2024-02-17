@@ -22,7 +22,7 @@ using std::cin;
 
 // Class declaration - quiz?
 class Quiz {
-public: // CAN MORE OF THESE BE PRIVATE?
+public: // NEED: CAN MORE OF THESE BE PRIVATE?
     // CONSRTUCTOR
     // with qustion counts initialized
     Quiz ()
@@ -63,9 +63,7 @@ public: // CAN MORE OF THESE BE PRIVATE?
     void setStudentAnswer(int userAnswer) {
         studentAnswer = userAnswer;
     }
-    
-    // Setters for operation and difficulty
-    
+        
     // Increment num total/num correct
     void incrementAnswerCount() {
         answerCount++;
@@ -109,6 +107,7 @@ public: // CAN MORE OF THESE BE PRIVATE?
     } // end printQuestion()
     
     // Check answer
+    // HOW TO HANDLE DIVISION DECIMALS???
     bool checkAnswer() {
         switch (currentOperation) {
             case (1):
@@ -143,28 +142,53 @@ public: // CAN MORE OF THESE BE PRIVATE?
         
         // while (check answer == false && total num < 10), then
         while (checkAnswer() == false && getAnswerCount() < 10) {
-            incrementAnswerCount();
-            // NEED TO CALL INCORRECT RESPONSES HERE
-            cout << "Wrong. Try again. ";
+            printNegativeMessage();
             cin >> studentAnswer;
+            incrementAnswerCount();
             checkAnswer();
         }
-
-        incrementAnswerCount();
+        printPositiveMessage();
         incrementCorrectCount();
-        cout << "Correct!\n";
-        
     } // end checkQuestion()
     
-    // Caculate score
+    // NEED: Caculate score
         // if (Number Correct / 10 < 75%), then print good job!
         // else print "see teaacher"
     
-    // Print positive message
-        // rand and switch
+    void printPositiveMessage() {
+        switch(rand() % 4) {
+            case (0):
+                cout << "   Very good!\n";
+                break;
+            case (1):
+                cout << "   Excellent!\n";
+                break;
+            case (2):
+                cout << "   Nice work!\n";
+                break;
+            default:
+                cout << "   Keep up the good work!\n";
+                break;
+        }
+    } // end printPositiveMessage()
     
     // Print negative message
-        // rand and switch
+    void printNegativeMessage() {
+        switch(rand() % 4) {
+            case (0):
+                cout << "   No. Please try again. ";
+                break;
+            case (1):
+                cout << "   Wrong. Try once more. ";
+                break;
+            case (2):
+                cout << "   Don't give up! ";
+                break;
+            default:
+                cout << "   No. Keep trying. ";
+                break;
+        }
+    } // end printNegativeMessage()
     
 private:
     
@@ -177,7 +201,7 @@ private:
         } else if (difficulty == 3) {
             return rand() % 1000;
         } else if (difficulty == 4) {
-            return rand() % 10000; // IS IT OKAY THAT THESE ARE UP TO 5 DIGITS??
+            return rand() % 10000; // NEED: IS IT OKAY THAT THESE ARE UP TO 5 DIGITS??
         } else {
             return rand() % 100000;
         }
@@ -250,9 +274,11 @@ int main() {
             // Get user's input and set in object
             cin >> userAnswer;
             quiz1.setStudentAnswer(userAnswer);
+            quiz1.incrementAnswerCount();
             quiz1.checkQuestion();
             
-            // Calcuate total score and print appropriate message
+            // NEED: Calcuate total score and print appropriate message
+            
         } // end each user's 10 questions
 
 
