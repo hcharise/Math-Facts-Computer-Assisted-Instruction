@@ -22,11 +22,11 @@ using std::cin;
 
 // Class declaration - quiz?
 class Quiz {
-public:
+public: // CAN MORE OF THESE BE PRIVATE?
     // CONSRTUCTOR
     // with qustion counts initialized
     Quiz ()
-    : questionNumber(0), numberCorrect(0) {
+    : answerCount(0), correctCount(0) {
         // empty body
     } // end constructor
     
@@ -35,9 +35,9 @@ public:
         return operation;
     } // end getOperation()
     
-    int getQuestionNumber() {
-        return questionNumber;
-    } // end getQuestionNumber()
+    int getAnswerCount() {
+        return answerCount;
+    } // end getanswerCount()
     
     // SETTERS
     void setOperation(int userOperation) {
@@ -56,21 +56,27 @@ public:
         }
     } // end setDifficulty()
     
-    void setQuestionNumber(int newQuestionNumber) {
-        questionNumber = newQuestionNumber;
+    void setAnswerCount(int newanswerCount) {
+        answerCount = newanswerCount;
+    }
+    
+    void setStudentAnswer(int userAnswer) {
+        studentAnswer = userAnswer;
     }
     
     // Setters for operation and difficulty
     
     // Increment num total/num correct
-    void incrementQuestionNumber() {
-        questionNumber++;
+    void incrementAnswerCount() {
+        answerCount++;
+    }
+    
+    void incrementCorrectCount() {
+        correctCount++;
     }
     
     // Print question
     void printQuestion() {
-        int currentOperation;
-        
         firstOperand = generateOperand();
         secondOperand = generateOperand();
         
@@ -96,19 +102,59 @@ public:
                 cout << " divided by ";
                 break;
             default:
-                cout << " UH OH! ";
+                cout << " INVALID OPERATION ";
                 break;
         }
         cout << secondOperand << "? ";
     } // end printQuestion()
     
-    // Get operation (maybe shouldn't call getter?)
-        // switch with returning op
-        // 5: rand to switch to new op
-    
     // Check answer
-        // If (operation = +), then correct = op1 + op2
-        // return (user answer == correct answer)
+    bool checkAnswer() {
+        switch (currentOperation) {
+            case (1):
+                if (studentAnswer == (firstOperand + secondOperand)) {
+                    return true;
+                }
+                break;
+            case (2):
+                if (studentAnswer == (firstOperand - secondOperand)) {
+                    return true;
+                }
+                break;
+            case (3):
+                if (studentAnswer == (firstOperand * secondOperand)) {
+                    return true;
+                }
+                break;
+            case (4):
+                if (studentAnswer == (firstOperand / secondOperand)) {
+                    return true;
+                }
+                break;
+            default:
+                cout << " INVALID OPERATION ";
+                break;
+        }
+        // If hasn't already returned true, answer is incorrect
+        return false;
+    } // end checkAnswer()
+    
+    void checkQuestion() {
+        
+        // while (check answer == false && total num < 10), then
+        while (checkAnswer() == false && getAnswerCount() < 10) {
+            incrementAnswerCount();
+            // NEED TO CALL INCORRECT RESPONSES HERE
+            cout << "Wrong. Try again. ";
+            cin >> studentAnswer;
+            checkAnswer();
+        }
+
+        incrementAnswerCount();
+        incrementCorrectCount();
+        cout << "Correct!\n";
+        
+    } // end checkQuestion()
     
     // Caculate score
         // if (Number Correct / 10 < 75%), then print good job!
@@ -131,20 +177,20 @@ private:
         } else if (difficulty == 3) {
             return rand() % 1000;
         } else if (difficulty == 4) {
-            return rand() % 10000;
+            return rand() % 10000; // IS IT OKAY THAT THESE ARE UP TO 5 DIGITS??
         } else {
             return rand() % 100000;
         }
     } // end generateOperand()
 
-    int userAnswer;
-    int correctAnswer;
+    int studentAnswer;
     
     int firstOperand;
     int secondOperand;
+    int currentOperation;
     
-    int questionNumber;
-    int numberCorrect;
+    int answerCount;
+    int correctCount;
     
     int difficulty;
     int operation;
@@ -194,23 +240,17 @@ int main() {
         cout << "\nLet's get started!\n\n";
 
         // Resent question count
-        quiz1.setQuestionNumber(0);
+        quiz1.setAnswerCount(0);
         
         // Loop for each question (total num < 10)
-        while (quiz1.getQuestionNumber() < 10) {
+        while (quiz1.getAnswerCount() < 10) {
             
             // Print question
             quiz1.printQuestion();
             // Get user's input and set in object
             cin >> userAnswer;
-            
-            // while (check answer == false && total num < 10), then
-                // total number ++
-            // print negative message
-            // re-get input
-            // number correct++ & number total++
-            quiz1.incrementQuestionNumber();
-            // print positive message
+            quiz1.setStudentAnswer(userAnswer);
+            quiz1.checkQuestion();
             
             // Calcuate total score and print appropriate message
         } // end each user's 10 questions
@@ -230,6 +270,6 @@ int main() {
         cin >> operation;
         cout << "\n";
                     
-    } // end loop (all students completed
+    } // end loop (all students completed quiz)
     
 } // end main
