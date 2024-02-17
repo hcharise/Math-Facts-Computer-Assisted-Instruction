@@ -20,63 +20,157 @@ using std::cout;
 using std::cin;
 
 // Class declaration - quiz?
-
-    // Constructor with operation and difficulty initialized
-
-    // Member Functions
-
-        // Generate question - actually just a setter for each operand?
-            // Operands = rand
-
-        // Check answer
-            // If (operation = +), then correct = op1 + op2
-            // return (user answer == correct answer)
-
-        // Caculate score
-            // if (Number Correct / 10 < 75%), then print good job!
-            //
-
-        // Print positive message
-            // rand and switch
-
-        // Print negative message
-            // rand and switch
-
-
+class Quiz {
+public:
+    // CONSRTUCTOR
+    // with qustion counts initialized
+    Quiz ()
+    : questionNumber(0), numberCorrect(0) {
+        // empty body
+    } // end constructor
+    
+    // GETTERS
+    int getOperation() {
+        return operation;
+    } // end getOperation()
+    
+    int getQuestionNumber() {
+        return questionNumber;
+    } // end getQuestionNumber()
+    
+    // SETTERS
+    void setOperation(int userOperation) {
+        operation = userOperation;
+        if (operation > 5 || operation < 1) {
+            cout << "Invalid operation. Defaulting to addition.\n";
+            operation = 1;
+        }
+    } // end setOperation()
+    
+    void setDifficulty(int userDifficulty) {
+        difficulty = userDifficulty;
+        if (userDifficulty > 5 || userDifficulty < 1) {
+            cout << "Invalid difficulty. Defaulting to one-digit numbers.\n";
+            difficulty = 1;
+        }
+    } // end setDifficulty()
+    
+    // Setters for operation and difficulty
+    
+    // Increment num total/num correct
+    void incrementQuestionNumber() {
+        questionNumber++;
+    }
+    
+    // Print question
+        
+    // Determine operand
+    
+    // Get operation (maybe shouldn't call getter?)
+        // switch with returning op
+        // 5: rand to switch to new op
+    
+    // Check answer
+        // If (operation = +), then correct = op1 + op2
+        // return (user answer == correct answer)
+    
+    // Caculate score
+        // if (Number Correct / 10 < 75%), then print good job!
+        // else print "see teaacher"
+    
+    // Print positive message
+        // rand and switch
+    
+    // Print negative message
+        // rand and switch
+    
+private:
     // Data Members
-        // User Answer
-        // Correct Answer
-        // First Operand
-        // Second Operand
-        // Number Total
-        // Number Correct
-        // Difficulty
-        // Operation
-
+    int userAnswer;
+    int correctAnswer;
+    
+    int firstOperand;
+    int secondOperand;
+    
+    int questionNumber;
+    int numberCorrect;
+    
+    int difficulty;
+    int operation;
+};
 
 int main() {
     int difficulty; // User-chosen difficulty level, ie. the number of digits
     int operation; // User-chosen operation (+, -, *, /, mix)
     
     // Print intro banner
+    cout << "----------------------------------------------\n"
+        << "                 Ms. Ashton's                 \n"
+        << "              Math Fact Practice              \n"
+        << "----------------------------------------------\n\n";
     
-    // Prompt user for difficulty and operation
+    // Create quiz object
+    Quiz quiz1;
     
-    // Loop for each user (difficulty != -1?)
-        
-        // Loop for each question (10 or fewer times)
-            // Print question (What is quiz.getfirstoperand quiz.getoperation quiz.getsecondoperand)
-            // Get user's input and set in object
+    // Prompt user for operation
+    cout << "Welcome, student!\n\n"
+        << "What operation are you practicing today?\n"
+        << "    1: Addition\n"
+        << "    2: Subtraction\n"
+        << "    3: Multiplication\n"
+        << "    4: Division\n"
+        << "    5: All Operations\n"
+        << "    Or enter -1 to exit.\n"
+        << "Operation: ";
+    cin >> operation;
+    cout << "\n";
     
-            // while check answer == false, then
-                // number total++
-                // print negative message
-                // re-get input
-            // number correct++ & number total++
-            // print positive message
+    // Loop for each user (operation != -1?)
+    while (operation != -1) {
+        quiz1.setOperation(operation);
+        cout << "What difficulty level is right for you?\n"
+            << "    1: One-Digit Numbers\n"
+            << "    2: Two-Digit Numbers\n"
+            << "    3: Three-Digit Numbers\n"
+            << "    4: Four-Digit Numbers\n"
+            << "    5: Five-Digit Numbers\n"
+            << "Difficulty: ";
+        cin >> difficulty;
+        quiz1.setDifficulty(difficulty);
+        cout << "\nLet's get started!\n\n";
 
-        // Calcuate total score and print appropriate message
-    
-        // Reprompt new user for difficulty and operation
+            
+        // Loop for each question (total num < 10)
+        while (quiz1.getQuestionNumber() <= 10) {
+            
+            // Print question
+            // Get user's input and set in object
+            
+            // while (check answer == false && total num < 10), then
+                // total number ++
+            // print negative message
+            // re-get input
+            // number correct++ & number total++
+            quiz1.incrementQuestionNumber();
+            // print positive message
+            
+            // Calcuate total score and print appropriate message
+        } // end each user's 10 questions
+
+        // Reprompt new user for operation
+        cout << "\n   ----------------------------------------   \n\n"
+            << "Welcome, student!\n\n"
+            << "What operation are you practicing today?\n"
+            << "    1: Addition\n"
+            << "    2: Subtraction\n"
+            << "    3: Multiplication\n"
+            << "    4: Division\n"
+            << "    5: All Operations\n"
+            << "    Or enter -1 to exit.\n"
+            << "Operation: ";
+        cin >> operation;
+        cout << "\n";
+                    
+    } // end loop (all students completed
     
 } // end main
