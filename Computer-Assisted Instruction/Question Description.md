@@ -3,7 +3,8 @@
 
  6.57 - 6.61 pg 281-282
  
- Write a program that uses the rand function to product two positive one-digit integers. The program should then prompt the user with a question, such as "How much is 6 times 7?". The student then inputs the answer. Next, the program checks the student's answer. If it's correct, display the message "Very good!" and ask another multiplication question. If the answer is wrong, display the message "No. Please try again." and let the student try the same question repeatedly until the student finally gets it right. A separate function should be used to generate eeach new question. This function should be called once when the applciation begins execution and each time the user answers the question correctly.
+ Write a program that uses the rand function to product two positive one-digit integers. The program should then p
+ stion repeatedly until the student finally gets it right. A separate function should be used to generate eeach new question. This function should be called once when the applciation begins execution and each time the user answers the question correctly.
  
  Modify the program so that various comments are displayed for each ansewr as follows:
  Possible responses to a correct answer: Very good! Excellent! Nice work! Keep up the good work!
