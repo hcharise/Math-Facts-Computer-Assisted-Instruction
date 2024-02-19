@@ -56,8 +56,12 @@ public: // NEED: CAN MORE OF THESE BE PRIVATE?
         }
     } // end setDifficulty()
     
-    void setAnswerCount(int newanswerCount) {
-        answerCount = newanswerCount;
+    void setAnswerCount(int newAnswerCount) {
+        answerCount = newAnswerCount;
+    }
+    
+    void setCorrectCount(int newCorrectCount) {
+        correctCount = newCorrectCount;
     }
     
     void setStudentAnswer(int userAnswer) {
@@ -107,7 +111,6 @@ public: // NEED: CAN MORE OF THESE BE PRIVATE?
     } // end printQuestion()
     
     // Check answer
-    // HOW TO HANDLE DIVISION DECIMALS???
     bool checkAnswer() {
         switch (currentOperation) {
             case (1):
@@ -126,12 +129,13 @@ public: // NEED: CAN MORE OF THESE BE PRIVATE?
                 }
                 break;
             case (4):
-                if (studentAnswer == (firstOperand / secondOperand)) {
+                // Rounds to the nearest whole number (.5 and higher rounds up)
+                if (studentAnswer == ((firstOperand + (secondOperand / 2)) / secondOperand)) {
                     return true;
                 }
                 break;
             default:
-                cout << " INVALID OPERATION ";
+                cout << " CANNOT CHECK ANSWER. ";
                 break;
         }
         // If hasn't already returned true, answer is incorrect
@@ -140,20 +144,40 @@ public: // NEED: CAN MORE OF THESE BE PRIVATE?
     
     void checkQuestion() {
         
+        // increment answer count when getting input until answer count is 10
+        // print wrong message when wrong and answer count < 10
+        
+        
         // while (check answer == false && total num < 10), then
-        while (checkAnswer() == false && getAnswerCount() < 10) {
-            printNegativeMessage();
-            cin >> studentAnswer;
-            incrementAnswerCount();
-            checkAnswer();
+        while (checkAnswer() == false && answerCount <= 10) {
+            if (answerCount < 10) {
+                printNegativeMessage();
+                cin >> studentAnswer;
+                incrementAnswerCount();
+            } else {
+                // Error message for final question (not prompting for new response)
+                cout << "   Still not quite.\n";
+                break;
+            }
+            
         }
-        printPositiveMessage();
-        incrementCorrectCount();
+        
+        if (checkAnswer() == true) {
+            printPositiveMessage();
+            incrementCorrectCount();
+        }
+        
     } // end checkQuestion()
     
-    // NEED: Caculate score
-        // if (Number Correct / 10 < 75%), then print good job!
-        // else print "see teaacher"
+    void calculateScore() {
+        cout << "You got " << correctCount << " out of " << answerCount<< ".\n";
+        cout << "\nYour final score is " << (correctCount * 100 / answerCount) << "%.\n";
+        if (((float)correctCount / answerCount) < 0.75) {
+            cout << "Please ask your teacher for extra help.\n";
+        } else {
+            cout << "Congratulations, you are ready to go to the next level!\n";
+        }
+    } // end calculateScore
     
     void printPositiveMessage() {
         switch(rand() % 4) {
@@ -201,7 +225,7 @@ private:
         } else if (difficulty == 3) {
             return rand() % 1000;
         } else if (difficulty == 4) {
-            return rand() % 10000; // NEED: IS IT OKAY THAT THESE ARE UP TO 5 DIGITS??
+            return rand() % 10000;
         } else {
             return rand() % 100000;
         }
@@ -253,18 +277,23 @@ int main() {
     while (operation != -1) {
         quiz1.setOperation(operation);
         cout << "What difficulty level is right for you?\n"
-            << "    1: One-Digit Numbers\n"
-            << "    2: Two-Digit Numbers\n"
-            << "    3: Three-Digit Numbers\n"
-            << "    4: Four-Digit Numbers\n"
-            << "    5: Five-Digit Numbers\n"
-            << "Difficulty: ";
+        << "    1: Up to One-Digit Numbers\n"
+        << "    2: Up to Two-Digit Numbers\n"
+        << "    3: Up to Three-Digit Numbers\n"
+        << "    4: Up to Four-Digit Numbers\n"
+        << "    5: Up to Five-Digit Numbers\n"
+        << "Difficulty: ";
         cin >> difficulty;
         quiz1.setDifficulty(difficulty);
+        
         cout << "\nLet's get started!\n\n";
+        if (quiz1.getOperation() == 4 || quiz1.getOperation() == 5) {
+            cout << "*For division, round to the nearest whole number.*\n\n";
+        }
 
         // Resent question count
         quiz1.setAnswerCount(0);
+        quiz1.setCorrectCount(0);
         
         // Loop for each question (total num < 10)
         while (quiz1.getAnswerCount() < 10) {
@@ -276,11 +305,10 @@ int main() {
             quiz1.setStudentAnswer(userAnswer);
             quiz1.incrementAnswerCount();
             quiz1.checkQuestion();
-            
-            // NEED: Calcuate total score and print appropriate message
-            
+                        
         } // end each user's 10 questions
 
+        quiz1.calculateScore();
 
         // Reprompt new user for operation
         cout << "\n   ----------------------------------------   \n\n"
