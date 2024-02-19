@@ -25,56 +25,93 @@ class Quiz {
 public: // NEED: CAN MORE OF THESE BE PRIVATE?
     // CONSRTUCTOR
     // with qustion counts initialized
-    Quiz ()
-    : answerCount(0), correctCount(0) {
+    Quiz () {
         // empty body
     } // end constructor
     
-    // GETTERS
-    int getOperation() {
-        return operation;
-    } // end getOperation()
+    // Print into banner
+    void printIntroBanner() {
+        // Print intro banner
+        cout << "----------------------------------------------\n"
+            << "                 Ms. Ashton's                 \n"
+            << "              Math Fact Practice              \n"
+            << "----------------------------------------------\n\n";
+        
+    } // end printIntroBanner()
     
-    int getAnswerCount() {
-        return answerCount;
-    } // end getanswerCount()
+    void printOperationMenu() {
+        
+        // Prompt user for operation
+        cout << "Welcome, student!\n\n"
+            << "What operation are you practicing today?\n"
+            << "    1: Addition\n"
+            << "    2: Subtraction (answers may be negative)\n"
+            << "    3: Multiplication\n"
+            << "    4: Division (rounded to nearest whole)\n"
+            << "    5: All Operations\n"
+            << "    Or enter -1 to exit.\n"
+            << "Operation: ";
+        cin >> operation;
+        if ((operation > 5 || operation < 1) && (operation != -1)) {
+                    cout << "Invalid operation. Defaulting to addition.\n";
+                    operation = 1;
+                }
+        cout << "\n";
+        
+    } // end printOperationMenu()
     
-    // SETTERS
-    void setOperation(int userOperation) {
-        operation = userOperation;
-        if (operation > 5 || operation < 1) {
-            cout << "Invalid operation. Defaulting to addition.\n";
-            operation = 1;
-        }
-    } // end setOperation()
-    
-    void setDifficulty(int userDifficulty) {
-        difficulty = userDifficulty;
-        if (userDifficulty > 5 || userDifficulty < 1) {
+    void printDifficultyMenu() {
+        cout << "What difficulty level is right for you?\n"
+        << "    1: Up to One-Digit Numbers\n"
+        << "    2: Up to Two-Digit Numbers\n"
+        << "    3: Up to Three-Digit Numbers\n"
+        << "    4: Up to Four-Digit Numbers\n"
+        << "    5: Up to Five-Digit Numbers\n"
+        << "Difficulty: ";
+        cin >> difficulty;
+        
+        // check for invalid input
+        if (difficulty > 5 || difficulty < 1) {
             cout << "Invalid difficulty. Defaulting to one-digit numbers.\n";
             difficulty = 1;
         }
-    } // end setDifficulty()
-    
-    void setAnswerCount(int newAnswerCount) {
-        answerCount = newAnswerCount;
-    }
-    
-    void setCorrectCount(int newCorrectCount) {
-        correctCount = newCorrectCount;
-    }
-    
-    void setStudentAnswer(int userAnswer) {
-        studentAnswer = userAnswer;
-    }
         
-    // Increment num total/num correct
-    void incrementAnswerCount() {
-        answerCount++;
-    }
+    } // end printDifficultyMenu()
     
-    void incrementCorrectCount() {
-        correctCount++;
+    void startQuiz() {
+        
+        printIntroBanner();
+        printOperationMenu();
+
+        // Loop for each user (operation != -1?)
+        while (operation != -1) {
+            printDifficultyMenu();
+            
+            cout << "\nLet's get started!\n\n";
+
+            // Resent question counts
+            answerCount = 0;
+            correctCount = 0;
+            
+            // Loop for each question (total num < 10)
+            while (answerCount < 10) {
+                
+                // Print question
+                printQuestion();
+                // Get user's input and set in object
+                cin >> studentAnswer;
+                answerCount++;
+                checkQuestion();
+                            
+            } // end each user's 10 questions
+            calculateScore();
+            
+            cout << "\n----------------------------------------------\n\n";
+
+            // Reprompt new user for operation
+            printOperationMenu();
+                        
+        } // end loop (all students completed quiz)
     }
     
     // Print question
@@ -144,16 +181,12 @@ public: // NEED: CAN MORE OF THESE BE PRIVATE?
     
     void checkQuestion() {
         
-        // increment answer count when getting input until answer count is 10
-        // print wrong message when wrong and answer count < 10
-        
-        
         // while (check answer == false && total num < 10), then
         while (checkAnswer() == false && answerCount <= 10) {
             if (answerCount < 10) {
                 printNegativeMessage();
                 cin >> studentAnswer;
-                incrementAnswerCount();
+                answerCount++;
             } else {
                 // Error message for final question (not prompting for new response)
                 cout << "   Still not quite.\n";
@@ -164,13 +197,12 @@ public: // NEED: CAN MORE OF THESE BE PRIVATE?
         
         if (checkAnswer() == true) {
             printPositiveMessage();
-            incrementCorrectCount();
+            correctCount++;
         }
         
     } // end checkQuestion()
     
     void calculateScore() {
-        cout << "You got " << correctCount << " out of " << answerCount<< ".\n";
         cout << "\nYour final score is " << (correctCount * 100 / answerCount) << "%.\n";
         if (((float)correctCount / answerCount) < 0.75) {
             cout << "Please ask your teacher for extra help.\n";
@@ -246,84 +278,11 @@ private:
 
 int main() {
     srand((unsigned int) time(NULL));
-
-    int difficulty; // User-chosen difficulty level, ie. the number of digits
-    int operation; // User-chosen operation (+, -, *, /, mix)
-    int userAnswer;
-    
-    // Print intro banner
-    cout << "----------------------------------------------\n"
-        << "                 Ms. Ashton's                 \n"
-        << "              Math Fact Practice              \n"
-        << "----------------------------------------------\n\n";
-    
+        
     // Create quiz object
     Quiz quiz1;
     
-    // Prompt user for operation
-    cout << "Welcome, student!\n\n"
-        << "What operation are you practicing today?\n"
-        << "    1: Addition\n"
-        << "    2: Subtraction\n"
-        << "    3: Multiplication\n"
-        << "    4: Division\n"
-        << "    5: All Operations\n"
-        << "    Or enter -1 to exit.\n"
-        << "Operation: ";
-    cin >> operation;
-    cout << "\n";
-    
-    // Loop for each user (operation != -1?)
-    while (operation != -1) {
-        quiz1.setOperation(operation);
-        cout << "What difficulty level is right for you?\n"
-        << "    1: Up to One-Digit Numbers\n"
-        << "    2: Up to Two-Digit Numbers\n"
-        << "    3: Up to Three-Digit Numbers\n"
-        << "    4: Up to Four-Digit Numbers\n"
-        << "    5: Up to Five-Digit Numbers\n"
-        << "Difficulty: ";
-        cin >> difficulty;
-        quiz1.setDifficulty(difficulty);
-        
-        cout << "\nLet's get started!\n\n";
-        if (quiz1.getOperation() == 4 || quiz1.getOperation() == 5) {
-            cout << "*For division, round to the nearest whole number.*\n\n";
-        }
+    // Pass control to class objet
+    quiz1.startQuiz();
 
-        // Resent question count
-        quiz1.setAnswerCount(0);
-        quiz1.setCorrectCount(0);
-        
-        // Loop for each question (total num < 10)
-        while (quiz1.getAnswerCount() < 10) {
-            
-            // Print question
-            quiz1.printQuestion();
-            // Get user's input and set in object
-            cin >> userAnswer;
-            quiz1.setStudentAnswer(userAnswer);
-            quiz1.incrementAnswerCount();
-            quiz1.checkQuestion();
-                        
-        } // end each user's 10 questions
-
-        quiz1.calculateScore();
-
-        // Reprompt new user for operation
-        cout << "\n   ----------------------------------------   \n\n"
-            << "Welcome, student!\n\n"
-            << "What operation are you practicing today?\n"
-            << "    1: Addition\n"
-            << "    2: Subtraction\n"
-            << "    3: Multiplication\n"
-            << "    4: Division\n"
-            << "    5: All Operations\n"
-            << "    Or enter -1 to exit.\n"
-            << "Operation: ";
-        cin >> operation;
-        cout << "\n";
-                    
-    } // end loop (all students completed quiz)
-    
 } // end main
