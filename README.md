@@ -6,6 +6,8 @@ This repository contains a **Math Facts Computer-Assisted Instruction (CAI)** to
 
 *Sample program execution.*
 
+The project was developed within Syracuse University's CIS-554 Object Oriented Programming course, taught by Professor Jonathan Weissman, during the January 2024 term.
+
 ## Features
 
 - **Math Fact Drills**: Focuses on core operations (addition, subtraction, multiplication, division) to strengthen fundamental skills.
